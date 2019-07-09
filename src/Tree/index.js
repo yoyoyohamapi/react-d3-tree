@@ -355,8 +355,8 @@ export default class Tree extends React.Component {
     const tree = layout
       .tree()
       .nodeSize(orientation === 'horizontal' ? [nodeSize.y, nodeSize.x] : [nodeSize.x, nodeSize.y])
-      .separation(
-        (a, b) => (a.parent.id === b.parent.id ? separation.siblings : separation.nonSiblings),
+      .separation((a, b) =>
+        a.parent.id === b.parent.id ? separation.siblings : separation.nonSiblings,
       )
       .children(d => (d._collapsed ? null : d._children));
 
@@ -427,6 +427,7 @@ export default class Tree extends React.Component {
       circleRadius,
       allowForeignObjects,
       styles,
+      getLinkStyle,
     } = this.props;
     const { translate, scale } = this.internalState.d3;
     const subscriptions = { ...nodeSize, ...separation, depthFactor, initialDepth };
@@ -448,6 +449,7 @@ export default class Tree extends React.Component {
                 linkData={linkData}
                 transitionDuration={transitionDuration}
                 styles={styles.links}
+                getStyle={getLinkStyle}
               />
             ))}
 
@@ -514,6 +516,7 @@ Tree.defaultProps = {
   shouldCollapseNeighborNodes: false,
   circleRadius: undefined, // TODO: DEPRECATE
   styles: {},
+  getLinkStyle: () => ({}),
 };
 
 Tree.propTypes = {
@@ -560,4 +563,5 @@ Tree.propTypes = {
     nodes: T.object,
     links: T.object,
   }),
+  getLinkStyle: T.func,
 };

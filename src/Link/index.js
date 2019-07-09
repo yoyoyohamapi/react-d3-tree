@@ -86,13 +86,13 @@ export default class Link extends React.PureComponent {
   }
 
   render() {
-    const { styles } = this.props;
+    const { styles, getStyle, linkData } = this.props;
     return (
       <path
         ref={l => {
           this.link = l;
         }}
-        style={{ ...this.state.initialStyle, ...styles }}
+        style={{ ...this.state.initialStyle, ...styles, ...getStyle(linkData) }}
         className="linkBase"
         d={this.drawPath()}
       />
@@ -110,4 +110,6 @@ Link.propTypes = {
   pathFunc: T.oneOfType([T.oneOf(['diagonal', 'elbow', 'straight']), T.func]).isRequired,
   transitionDuration: T.number.isRequired,
   styles: T.object,
+  /** 自定义 link style 样式 */
+  getStyle: T.func.isRequired,
 };
