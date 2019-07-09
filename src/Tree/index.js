@@ -51,6 +51,14 @@ export default class Tree extends React.Component {
 
       this.internalState.targetNode = null;
     }
+
+    // reset tree to the initial position
+    if (this.props.resetOnDataChanged && prevProps.data !== this.props.data) {
+      const g = select(`.${this.state.rd3tGClassName}`);
+      const {x, y} = this.props.translate
+      g.attr('transform', `translate(${x}, ${y}) scale(${this.props.zoom})`);
+      this.bindZoomListener(this.props)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -517,6 +525,7 @@ Tree.defaultProps = {
   circleRadius: undefined, // TODO: DEPRECATE
   styles: {},
   getLinkStyle: () => ({}),
+  resetOnDataChanged: false,
 };
 
 Tree.propTypes = {
@@ -564,4 +573,5 @@ Tree.propTypes = {
     links: T.object,
   }),
   getLinkStyle: T.func,
+  resetOnDataChanged: T.bool,
 };
