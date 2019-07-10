@@ -58,7 +58,7 @@ declare module "react-d3-tree-advanced" {
     getLinkStyle?: (linkData: {
       source: ReactD3TreeItem;
       target: ReactD3TreeItem;
-    }) => CSSStyleDeclaration;
+    }) => React.CSSProperties;
     resetOnDataChanged?: boolean;
   };
 
